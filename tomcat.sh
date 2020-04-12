@@ -4,6 +4,7 @@
 JAVA_VERSION=jdk-8u101-linux-x64.tar.gz
 JAVA_NAME=jdk1.8.0_101
 tar zxvf $JAVA_VERSION
+rm -rf /usr/local/$JAVA_NAME
 /usr/bin/mv $JAVA_NAME /usr/local/
 echo -e "export JAVA_HOME=/usr/local/$JAVA_NAME\nexport PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin\nexport CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib" >> /etc/profile
 source /etc/profile
@@ -15,22 +16,25 @@ sed -i 's#securerandom.source=file:\/dev\/random#securerandom.source=file:\/dev\
 #tomcat install
 TOMCAT_VERSION=apache-tomcat-9.0.33
 tar zxvf $TOMCAT_VERSION.tar.gz
+rm -rf /usr/local/$TOMCAT_VERSION
 /usr/bin/mv $TOMCAT_VERSION /usr/local/
 TOMCAT_HOME=/usr/local/$TOMCAT_VERSION
 echo -e "export TOMCAT_VERSION=apache-tomcat-9.0.33\nexport TOMCAT_HOME=/usr/local/$TOMCAT_VERSION" >>/etc/profile
 source /etc/profile
 
 #startup script
-/usr/bin/mv tomcat /etc/init.d/
-chmod 644 /etc/init.d/tomcat
+rm -rf /etc/init.d/tomcat
+/usr/bin/cp tomcat /etc/init.d/
+chmod 755 /etc/init.d/tomcat
 
 #management function
 #user setup
 sed -i 's#<\/tomcat-users>##g' $TOMCAT_HOME/conf/tomcat-users.xml
 echo -e "<role rolename=\"admin-gui\"/>\n<role rolename=\"admin-script\"/>\n<role rolename=\"manager-gui\"/>\n<role rolename=\"manager-script\"/>\n<role rolename=\"manager-jmx\"/>\n<role rolename=\"manager-status\"/>\n<user username=\"tomcat\" password=\"tomcatabc\" roles=\"admin-gui,admin-script,manager-gui,manager-script,manager-jmx,manager-status\"/>\n</tomcat-users>" >> $TOMCAT_HOME/conf/tomcat-users.xml
+echo "management user:pw = tomcat:tomcatabc"
+
 #allow IP
-#IP
-addIP () {
+#add IP
 while :
   do
     read -p "please input the IP you would like to add or you can add all or internal": IP
@@ -73,10 +77,11 @@ while :
         esac
     fi    
   done
-}
+
 increaseIP () {
 sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml 
 sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/META-INF/context.xml 
+}
 
 #management
 TOMCAT_HOME=/usr/local/tomcat9
