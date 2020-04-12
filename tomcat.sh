@@ -4,24 +4,24 @@
 JAVA_VERSION=jdk-8u101-linux-x64.tar.gz
 JAVA_NAME=jdk1.8.0_101
 tar zxvf $JAVA_VERSION
-mv $JAVA_NAME /usr/local/
+/usr/bin/mv $JAVA_NAME /usr/local/
 echo -e "export JAVA_HOME=/usr/local/$JAVA_NAME\nexport PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin\nexport CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib" >> /etc/profile
 source /etc/profile
 ln -s /usr/local/$JAVA_NAME/bin/java /bin/java
 
 #JAVA optimized
-sed -i 's#securerandom.source=file:\/dev\/random#securerandom.source=file:\/dev\/urandom#g'
+sed -i 's#securerandom.source=file:\/dev\/random#securerandom.source=file:\/dev\/urandom#g' $JAVA_HOME/jre/lib/security/java.security
 
 #tomcat install
 TOMCAT_VERSION=apache-tomcat-9.0.33
 tar zxvf $TOMCAT_VERSION.tar.gz
-mv $TOMCAT_VERSION /usr/local/
+/usr/bin/mv $TOMCAT_VERSION /usr/local/
 TOMCAT_HOME=/usr/local/$TOMCAT_VERSION
 echo -e "export TOMCAT_VERSION=apache-tomcat-9.0.33\nexport TOMCAT_HOME=/usr/local/$TOMCAT_VERSION" >>/etc/profile
 source /etc/profile
 
 #startup script
-mv tomcat /etc/init.d/
+/usr/bin/mv tomcat /etc/init.d/
 chmod 644 /etc/init.d/tomcat
 
 #management function
@@ -81,7 +81,7 @@ sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/M
 #management
 TOMCAT_HOME=/usr/local/tomcat9
 f=`wc -l $TOMCAT_HOME/conf/server.xml|awk '{print $1}'`
-mv $TOMCAT_HOME/conf/server.xml $TOMCAT_HOME/conf/server.xml.bak
+/usr/bin/mv $TOMCAT_HOME/conf/server.xml $TOMCAT_HOME/conf/server.xml.bak
 d=`grep org.apache.catalina.core.ThreadLocalLeakPreventionListener -n $TOMCAT_HOME/conf/server.xml.bak|awk -F ':' '{print $1}'`
 head -$d $TOMCAT_HOME/conf/server.xml.bak > $TOMCAT_HOME/conf/server.xml
 echo "<Listener className=\"org.apache.catalina.storeconfig.StoreConfigLifecycleListener\"/>" >> $TOMCAT_HOME/conf/server.xml
