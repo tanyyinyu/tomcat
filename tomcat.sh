@@ -35,9 +35,8 @@ echo "management user:pw = tomcat:tomcatabc"
 
 increaseIP () {
 echo $IP
-sed -i 's/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
-
-sed -i 's/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/META-INF/context.xml
+sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
+sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/manager/META-INF/context.xml
 }
 
 #allow IP
@@ -47,7 +46,8 @@ while :
     read -p "please input the IP you would like to add or you can add all or internal": IP
     if echo "$IP" | egrep "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"
       then
-	increaseIP	
+	sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
+	sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/manager/META-INF/context.xml
 	break
       else
         case $IP in
@@ -60,7 +60,8 @@ while :
 		case $b in
 			"y")
 			  IP=$c
-			  increaseIP
+		          sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
+        		  sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/manager/META-INF/context.xml
 			  break
 			  ;;
 			"n")
@@ -75,7 +76,8 @@ while :
   		echo "all"
 		echo "add .* all IP, zhihoutihuan"
 		IP=\.\*
-		increaseIP 
+	        sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
+        	sed -i "s/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g" $TOMCAT_HOME/webapps/manager/META-INF/context.xml
 		break
 		;;
           *)
