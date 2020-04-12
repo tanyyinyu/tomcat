@@ -1,25 +1,25 @@
 #!/bin/bash 
-tomcat_home=/usr/local/tomcat
-SHUTDOWN=$tomcat_home/bin/shutdown.sh
-STARTTOMCAT=$tomcat_home/bin/startup.sh
+#TOMCAT_HOME=/usr/local/tomcat
+SHUTDOWN=$TOMCAT_HOME/bin/shutdown.sh
+STARTTOMCAT=$TOMCAT_HOME/bin/startup.sh
 case $1 in
 start)
-echo "启动$tomcat_home"
+echo "启动$TOMCAT_HOME"
 $STARTTOMCAT
 ;;
 stop)
-echo "关闭$tomcat_home"
+echo "关闭$TOMCAT_HOME"
 $SHUTDOWN
-pidlist=`ps -ef |grep java |grep -v "grep"|awk '{print $2}'`
-kill -9 $pidlist
+#pidlist=`ps -ef |grep java |grep -v "grep"|awk '{print $2}'`
+#kill -9 $pidlist
 ;;
 restart)
-echo "关闭$tomcat_home"
+echo "关闭$TOMCAT_HOME"
 $SHUTDOWN
-pidlist=`ps -ef |grep java |grep -v "grep"|awk '{print $2}'`
-kill -9 $pidlist
+#pidlist=`ps -ef |grep java |grep -v "grep"|awk '{print $2}'`
+#kill -9 $pidlist
 sleep 5
-echo "启动$tomcat_home"
+echo "启动$TOMCAT_HOME"
 $STARTTOMCAT
 ;;
 esac
