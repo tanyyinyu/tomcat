@@ -1,5 +1,5 @@
 #!/bin/bash 
-#TOMCAT_HOME=/usr/local/tomcat
+TOMCAT_HOME=/usr/local/apache-tomcat-9.0.33
 SHUTDOWN=$TOMCAT_HOME/bin/shutdown.sh
 STARTTOMCAT=$TOMCAT_HOME/bin/startup.sh
 case $1 in
