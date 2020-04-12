@@ -33,6 +33,11 @@ sed -i 's#<\/tomcat-users>##g' $TOMCAT_HOME/conf/tomcat-users.xml
 echo -e "<role rolename=\"admin-gui\"/>\n<role rolename=\"admin-script\"/>\n<role rolename=\"manager-gui\"/>\n<role rolename=\"manager-script\"/>\n<role rolename=\"manager-jmx\"/>\n<role rolename=\"manager-status\"/>\n<user username=\"tomcat\" password=\"tomcatabc\" roles=\"admin-gui,admin-script,manager-gui,manager-script,manager-jmx,manager-status\"/>\n</tomcat-users>" >> $TOMCAT_HOME/conf/tomcat-users.xml
 echo "management user:pw = tomcat:tomcatabc"
 
+increaseIP () {
+sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
+sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/META-INF/context.xml
+}
+
 #allow IP
 #add IP
 while :
@@ -77,11 +82,6 @@ while :
         esac
     fi    
   done
-
-increaseIP () {
-sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml 
-sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/META-INF/context.xml 
-}
 
 #management
 TOMCAT_HOME=/usr/local/tomcat9
