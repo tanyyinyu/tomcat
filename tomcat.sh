@@ -34,8 +34,10 @@ echo -e "<role rolename=\"admin-gui\"/>\n<role rolename=\"admin-script\"/>\n<rol
 echo "management user:pw = tomcat:tomcatabc"
 
 increaseIP () {
-sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
-sed -i 's/0:0:0:0:0:0:0:1|/0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/META-INF/context.xml
+echo $IP
+sed -i 's/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/host-manager/META-INF/context.xml
+
+sed -i 's/|0:0:0:0:0:0:0:1/|0:0:0:0:0:0:0:1|$IP/g' $TOMCAT_HOME/webapps/manager/META-INF/context.xml
 }
 
 #allow IP
@@ -72,8 +74,8 @@ while :
           "all")
   		echo "all"
 		echo "add .* all IP, zhihoutihuan"
-		IP=".*"
-		increaseIP  
+		IP=\.\*
+		increaseIP 
 		break
 		;;
           *)
