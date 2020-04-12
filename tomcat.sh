@@ -53,7 +53,7 @@ while :
 		ens33IP=`ip addr |grep ens33 |tail -1|awk '{print $2}'|awk -F '/' '{print $1}'`
     		echo "ens33IP=$ens33IP"
 	  	a=`echo $ens33IP |awk -F '.' '{print $1"."$2"."$3}'`	
-		c=$a.*
+		c=$a\.\*
 		read -p "if this range $c you would like to add (y or n):" b
 		case $b in
 			"y")
@@ -84,7 +84,6 @@ while :
   done
 
 #management
-TOMCAT_HOME=/usr/local/tomcat9
 f=`wc -l $TOMCAT_HOME/conf/server.xml|awk '{print $1}'`
 /usr/bin/mv $TOMCAT_HOME/conf/server.xml $TOMCAT_HOME/conf/server.xml.bak
 d=`grep org.apache.catalina.core.ThreadLocalLeakPreventionListener -n $TOMCAT_HOME/conf/server.xml.bak|awk -F ':' '{print $1}'`
