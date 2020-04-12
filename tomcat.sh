@@ -92,4 +92,4 @@ tail -$e $TOMCAT_HOME/conf/server.xml.bak >> $TOMCAT_HOME/conf/server.xml
 service tomcat start
 
 #info
-echo "please access by IP+8080"}
+echo "please access by IP+8080"
